@@ -8,28 +8,15 @@ import {
   Dispatch,
   SetStateAction,
 } from "react";
-import getWishlist from "../WishlistActions/getWishlist.action";
-
 
 export interface WishlistProduct {
   _id: string;
   title: string;
   imageCover: string;
   price: number;
-  category?: {
-    name: string;
-  };
-  brand?: {
-    name: string;
-  };
+  category?: { name: string };
+  brand?: { name: string };
 }
-
-export interface WishlistResponse {
-  status: string;
-  count?: number;
-  data: WishlistProduct[];
-}
-
 
 export interface WishlistContextType {
   products: WishlistProduct[];
@@ -38,11 +25,9 @@ export interface WishlistContextType {
   setnumberOfWishlistItem: Dispatch<SetStateAction<number>>;
 }
 
-
 interface WishlistContextProviderProps {
   children: ReactNode;
 }
-
 
 export const WishlistContext = createContext<WishlistContextType | undefined>(
   undefined
@@ -52,28 +37,25 @@ export default function WishlistContextProvider({
   children,
 }: WishlistContextProviderProps) {
   const [products, setProducts] = useState<WishlistProduct[]>([]);
-  const [numberOfWishlistItem, setnumberOfWishlistItem] =
-    useState<number>(0);
-
- 
-  async function getUserWishlist(): Promise<void> {
-    try {
-      const res: WishlistResponse = await getWishlist();
-
-      if (res.status === "success") {
-        setProducts(res.data);
-        setnumberOfWishlistItem(res.data?.length ?? 0);
-      }
-    } catch  {
-    }
-  }
+  const [numberOfWishlistItem, setnumberOfWishlistItem] = useState<number>(0);
 
   useEffect(() => {
-  if (typeof window !== "undefined") {
-    getUserWishlist(); // أو getUserWishlist()
-  }
-}, []);
+    async function fetchWishlist() {
+      try {
+        const res = await fetch("/api/wishlist", { cache: "no-store" });
+        const data = await res.json();
 
+        if (data.status === "success") {
+          setProducts(data.data);
+          setnumberOfWishlistItem(data.data.length || 0);
+        } 
+      } catch (err:unknown) {
+       
+      }
+    }
+
+    fetchWishlist();
+  }, []);
 
   return (
     <WishlistContext.Provider
