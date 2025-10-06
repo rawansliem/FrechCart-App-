@@ -69,8 +69,11 @@ export default function WishlistContextProvider({
   }
 
   useEffect(() => {
-    getUserWishlist();
-  }, []);
+  if (typeof window !== "undefined") {
+    getUserWishlist(); // أو getUserWishlist()
+  }
+}, []);
+
 
   return (
     <WishlistContext.Provider

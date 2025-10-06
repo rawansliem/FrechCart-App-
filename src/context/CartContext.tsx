@@ -35,9 +35,11 @@ export default function CartContextProvider({ children }: CartContextProviderPro
     }
   }
 
-  useEffect(() => {
-    getUserCart();
-  }, []);
+ useEffect(() => {
+  if (typeof window !== "undefined") {
+    getUserCart(); // أو getUserWishlist()
+  }
+}, []);
 
   return (
     <CartContext.Provider value={{ numberOfCartItem, setnumberOfCartItem }}>
