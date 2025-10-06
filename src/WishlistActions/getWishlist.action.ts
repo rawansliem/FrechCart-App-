@@ -1,12 +1,13 @@
-
+"use server";
 
 import getMyToken from "../utilities/getMyToken";
 
 export default async function getLoggedUserWishlist() {
   try {
     const token = await getMyToken();
-    if (!token) throw new Error("please login to be able to see wishlist!");
-
+    if (!token) {
+      return { status: "error", message: "Please login to be able to see wishlist!", data: [] };
+    }
     const response = await fetch("https://ecommerce.routemisr.com/api/v1/wishlist", {
       method: "GET",
       headers: {
