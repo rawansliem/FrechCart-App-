@@ -27,7 +27,7 @@ export default function CategorySwipper({data}:{data:CategoryType[]}) {
      
        {data.map((category)=>
             <SwiperSlide key={category._id}>       
-           <Image alt="" src={category.image}  className='w-full  h-[150px] object-cover'/>
+           <Image alt="" src={category.image} width={100} height={100}  className='w-full  h-[150px] object-cover'/>
            <p className='text-center font-bold'>{category.name}</p>
         </SwiperSlide>
     )}

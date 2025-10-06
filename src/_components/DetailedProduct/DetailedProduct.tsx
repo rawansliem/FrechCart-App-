@@ -12,7 +12,7 @@ export default function DetailedProduct({data}:{data:ProductType}) {
   
          <div className="container w-full  lg:w-[60%] mx-auto p-4 flex">
       <div className="w-1/4">
-        <Image src={data.imageCover} className="w-full"  alt={data.title} />
+        <Image src={data.imageCover} width={100} height={100} className="w-full"  alt={data.title} />
       </div>
 
       <div className="w-3/4">
