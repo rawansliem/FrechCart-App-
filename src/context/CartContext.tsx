@@ -2,6 +2,7 @@
 
 import { createContext, useEffect, useState, ReactNode, Dispatch, SetStateAction } from 'react';
 import getLoggedUserCart from '../CartActions/etLoggedUserCart';
+import { toast } from 'sonner';
 
 
 // 1- Define type for the context
@@ -30,8 +31,10 @@ export default function CartContextProvider({ children }: CartContextProviderPro
         setnumberOfCartItem(sum);
         
       }
-    } catch  {
-   
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : "Something went wrong";
+      toast.error(message, { position: "top-center", duration: 3000 });
     }
   }
 

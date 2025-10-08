@@ -9,6 +9,7 @@ import {
   SetStateAction,
 } from "react";
 import getWishlist from "../WishlistActions/getWishlist.action";
+import { toast } from "sonner";
 
 
 export interface WishlistProduct {
@@ -64,7 +65,10 @@ export default function WishlistContextProvider({
         setProducts(res.data);
         setnumberOfWishlistItem(res.data?.length ?? 0);
       }
-    } catch  {
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : "Something went wrong";
+      toast.error(message, { position: "top-center", duration: 3000 });
     }
   }
 
